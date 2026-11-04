@@ -153,3 +153,10 @@ var sv=document.getElementById('sv').value,n=document.getElementById('nm').value
 var body=(sv?'Service: '+sv+'\n\n':'')+t+'\n\n'+n+' ('+m+')'+(p?'\nPhone: '+p:'');
 document.getElementById('fs').textContent='Opening your email app…';
 location.href='mailto:kibetcollins016@gmail.com?subject='+encodeURIComponent('Project inquiry from '+n)+'&body='+encodeURIComponent(body)};
+
+/* Seed the layered star field for the cosmic home hero. */
+(function(){
+var hero=document.querySelector('.cosmic-hero');if(!hero)return;
+function stars(count){var values=[];for(var i=0;i<count;i++){values.push(Math.floor(Math.random()*2000)+'px '+Math.floor(Math.random()*2000)+'px #fff')}return values.join(',')}
+hero.style.setProperty('--stars-small',stars(320));hero.style.setProperty('--stars-medium',stars(100));hero.style.setProperty('--stars-large',stars(35));
+})();
