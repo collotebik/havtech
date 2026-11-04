@@ -755,6 +755,3 @@ footer.tf{max-width:1024px;margin:48px auto 32px;padding:0 24px;border:0;backgro
 .cosmic-hero .btn{background:#e0f2fe;color:#08213a}.cosmic-hero .btn.o{background:#ffffff0b;color:#f8fafc;border:1px solid #e0f2fe66}
 @media(max-width:700px){.cosmic-hero.hr{min-height:580px;padding:36px 20px 30px}.cosmic-hero .cosmic-kicker{margin-top:22px;font-size:9px}.cosmic-subtitle{gap:8px;letter-spacing:.14em}.cosmic-hero .hdesc{display:block;margin:18px auto 20px}.cosmic-hero .cosmic-horizon{bottom:-48%}}
 @media(prefers-reduced-motion:reduce){.cosmic-hero .cosmic-stars,.cosmic-subtitle span{animation:none}.cosmic-subtitle span{opacity:1}}
-/* Keep the original sentence and its original two-tone emphasis in the cosmic hero. */
-.cosmic-hero h1{max-width:900px;font-size:clamp(38px,min(7vw,10.5vh),88px);line-height:1.04;letter-spacing:-.04em;text-indent:0;background:linear-gradient(180deg,#fff 0%,rgba(255,255,255,.82) 160%);background-clip:text;color:transparent}
-.cosmic-hero h1 em{font-style:normal;background:linear-gradient(90deg,#7dd3fc,#e0f2fe 55%,#38bdf8);background-clip:text;color:transparent}
