@@ -758,6 +758,19 @@ footer.tf{max-width:1024px;margin:48px auto 32px;padding:0 24px;border:0;backgro
 .cband{background:linear-gradient(135deg,#101b2d,#171717)}
 @media(max-width:800px){.stats{grid-template-columns:repeat(2,1fr)}.stats div:nth-child(3){border-left:0}.stats div{padding:8px 14px}.hdi{padding:0 16px}}
 @media(max-width:600px){.stats{grid-template-columns:1fr 1fr}.stats b{font-size:16px}.stats span{font-size:11px}}
+.brand-logo{display:block;width:150px;height:auto;max-height:42px;object-fit:contain}
+.tfb .brand-logo{width:178px;max-height:50px}
+.hero-logo{display:block;width:min(56vw,620px);height:auto;opacity:.22;filter:contrast(1.18)}
+.rbt{overflow:hidden}
+@media(max-width:700px){.brand-logo{width:132px;max-height:38px}.tfb .brand-logo{width:155px}.hero-logo{width:78vw}}
+.cf label{display:block;margin:2px 0 -7px;font-size:13px;font-weight:700;color:var(--text);text-align:left}
+.cf label span{font-weight:500;color:var(--mut)}
+.cf input,.cf select,.cf textarea{margin-top:0}
+.process-next{position:relative;padding:96px 0 110px;background:#07111f;color:#f0f9ff;text-align:center;border-top:1px solid rgba(255,255,255,.12)}
+.process-next .eye{color:#7dd3fc}.process-next h2{max-width:700px;margin:12px auto 18px}.process-next .lead{color:#cbd5e1;margin:0 auto 28px}.process-next .btn{background:#7dd3fc;color:#06213a}
+@media(max-width:700px){.process-next{padding:72px 20px 84px}.process-next h2{font-size:clamp(28px,8vw,40px)}}
+.k2{height:78vh}
+@media(max-width:760px){.k2{height:70vh;min-height:430px}.k2c{min-height:420px}}
 
 /* Cosmic spaceflight hero */
 .cosmic-hero.hr{height:calc(100svh - 112px);min-height:620px;justify-content:center;padding:64px 24px 54px;background:radial-gradient(ellipse at 50% 72%,#10284a 0%,#080f20 47%,#03060d 100%);color:#f8fafc;isolation:isolate}

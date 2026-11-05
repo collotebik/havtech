@@ -79,7 +79,7 @@ body.rotation.y=lerp(body.rotation.y,-rx*.95,k1);body.rotation.x=lerp(body.rotat
 head.rotation.y=lerp(head.rotation.y,rx*1.8,k2);head.rotation.x=lerp(head.rotation.x,-ty*.3,k2);
 var cyc=t%3;eyes.forEach(function(e){e.ng.visible=!loved;e.he.visible=loved;var sy=1;if(cyc<.45&&!loved){sy=Math.max(.05,1-Math.sin(cyc/.45*Math.PI))}e.g.scale.set(1.1,1.1*sy,1.1)});
 R.render(scene,cam)}
-function loop(now){var dt=last?Math.min(.1,(now-last)/1000):1/60;last=now;if(vis&&!document.hidden){t+=dt;frame(dt)}raf=requestAnimationFrame(loop)}
+function loop(now){var dt=last?Math.min(.1,(now-last)/1000):1/60;last=now;if(vis&&!document.hidden&&!hero.closest('main').hidden){t+=dt;frame(dt)}raf=requestAnimationFrame(loop)}
 resize();if('ResizeObserver' in window)new ResizeObserver(resize).observe(hero);else window.addEventListener('resize',resize);
 if('IntersectionObserver' in window)new IntersectionObserver(function(a){vis=a[0].isIntersecting}).observe(hero);
 if(reduced){frame(.016)}else raf=requestAnimationFrame(loop);
@@ -152,5 +152,18 @@ document.getElementById('f').onsubmit=function(e){e.preventDefault();
 var sv=document.getElementById('sv').value,n=document.getElementById('nm').value,m=document.getElementById('em').value,p=document.getElementById('ph').value,t=document.getElementById('ms').value;
 var body=(sv?'Service: '+sv+'\n\n':'')+t+'\n\n'+n+' ('+m+')'+(p?'\nPhone: '+p:'');
 document.getElementById('fs').textContent='Opening your email app…';
-location.href='mailto:kibetcollins016@gmail.com?subject='+encodeURIComponent('Project inquiry from '+n)+'&body='+encodeURIComponent(body)};
+location.href='mailto:info@havtek.co.ke?subject='+encodeURIComponent('Project inquiry from '+n)+'&body='+encodeURIComponent(body)};
+
+/* Give the process journey a clear next step after the final card. */
+(function(){var section=document.getElementById('process');if(!section||document.querySelector('.process-next'))return;var next=document.createElement('section');next.className='process-next';next.innerHTML='<div class="w"><p class="eye">READY WHEN YOU ARE</p><h2>Let’s turn your idea into a <em>working solution.</em></h2><p class="lead">Tell us what you need and we’ll help you choose the right next step.</p><a class="btn" href="#contact">Start a project ↗</a></div>';section.parentNode.appendChild(next)})();
+
+/* Keep keyboard focus inside the mobile drawer and return it to the trigger. */
+(function(){var dw=document.getElementById('dw'),mb=document.getElementById('mb'),dx=document.getElementById('dx');if(!dw||!mb)return;var last=null;function focusables(){return dw.querySelectorAll('a[href],button:not([disabled]),input,select,textarea,[tabindex]:not([tabindex="-1"])')}function open(){last=document.activeElement;setTimeout(function(){var f=focusables();if(f.length)f[0].focus()},0)}function close(){setTimeout(function(){if(last&&last.focus)last.focus()},0)}mb.addEventListener('click',function(){if(!dw.hidden)open()});if(dx)dx.addEventListener('click',close);dw.addEventListener('keydown',function(e){if(e.key==='Tab'){var f=focusables();if(!f.length)return;var first=f[0],lastEl=f[f.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();lastEl.focus()}else if(!e.shiftKey&&document.activeElement===lastEl){e.preventDefault();first.focus()}}});document.querySelectorAll('a[href^="https://wa.me/"]').forEach(function(a){a.target='_blank';a.rel='noopener'})})();
+
+(function(){var heading=document.querySelector('#process .phead h2');if(heading)heading.innerHTML='From first chat to <em>a working solution</em>'})();
+
+/* Keep the homepage language aligned with the services Havtek actually offers. */
+(function(){var badge=document.querySelector('.hbadge');if(badge&&badge.firstChild)badge.firstChild.textContent='Websites · Software · IT support';var fixed=document.querySelector('.stats div:nth-child(2)');if(fixed){var b=fixed.querySelector('b'),s=fixed.querySelector('span');if(b)b.textContent='Fixed quotes';if(s)s.textContent='Agreed before work starts'}var support=document.querySelector('#process .k2[style*="--i:3"] h3');if(support&&support.lastChild)support.lastChild.textContent='Launch & support';document.querySelectorAll('.tfh h4').forEach(function(h){if(h.textContent.trim()==='CONTACT')h.textContent='INFO'})})();
+
+(function(){document.querySelectorAll('a[href="mailto:kibetcollins016@gmail.com"]').forEach(function(a){a.href='mailto:info@havtek.co.ke'});var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT),n;while(n=w.nextNode()){if(n.nodeValue.indexOf('kibetcollins016@gmail.com')!==-1)n.nodeValue=n.nodeValue.replace(/kibetcollins016@gmail\.com/g,'info@havtek.co.ke')}})();
 
