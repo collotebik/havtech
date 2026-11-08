@@ -1,7 +1,2 @@
-import { createRoot } from 'react-dom/client';
-import { FloatingIconsCta } from './components/FloatingIconsCta';
-import { FloatingIconsHero } from './components/FloatingIconsHero';
-import './index.css';
-
-const target = document.querySelector<HTMLElement>('#cta');
-if (target) createRoot(target).render(<FloatingIconsHero cta />);
+import {createRoot} from 'react-dom/client'; import HaosHero from './HaosHero'; import './index.css';
+const mount=document.querySelector('#top .hr'); if(mount) createRoot(mount).render(<HaosHero/>);

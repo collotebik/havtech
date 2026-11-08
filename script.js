@@ -12,17 +12,17 @@ var cv=document.getElementById('rb');if(!cv||!window.THREE)return;var hero=cv.pa
 try{R=new T.WebGLRenderer({canvas:cv,alpha:true,antialias:true})}catch(e){return}
 R.setPixelRatio(Math.min(window.devicePixelRatio||1,1.75));R.outputEncoding=T.sRGBEncoding;
 var scene=new T.Scene(),cam=new T.PerspectiveCamera(40,1,.1,100);cam.position.set(0,.2,6);cam.lookAt(0,0,0);
-scene.add(new T.AmbientLight(0xffffff,.95));var dl=new T.DirectionalLight(0xffffff,.6);dl.position.set(-1.5,3,4);scene.add(dl);scene.add(new T.HemisphereLight(0xffffff,0xb8d8f0,.35));
+scene.add(new T.AmbientLight(0x9fd4d0,.55));var dl=new T.DirectionalLight(0xd9fff3,1.15);dl.position.set(-1.5,3,4);scene.add(dl);var rim=new T.PointLight(0x7de38b,2.4,5);rim.position.set(1.3,.8,2.2);scene.add(rim);scene.add(new T.HemisphereLight(0xd8fff4,0x061512,.5));
 var root=new T.Group();scene.add(root);
 function M(o){return new T.MeshStandardMaterial(o)}
 /* dotted chassis textures */
 var sz=512,cC=document.createElement('canvas'),cB=document.createElement('canvas');cC.width=cC.height=cB.width=cB.height=sz;
-var xC=cC.getContext('2d'),xB=cB.getContext('2d');xC.fillStyle='#dcdcdc';xC.fillRect(0,0,sz,sz);xB.fillStyle='#808080';xB.fillRect(0,0,sz,sz);
+var xC=cC.getContext('2d'),xB=cB.getContext('2d');xC.fillStyle='#26363b';xC.fillRect(0,0,sz,sz);xB.fillStyle='#101c20';xB.fillRect(0,0,sz,sz);
 for(var n=0;n<10000;n++){var x=Math.random()*sz,y=Math.random()*sz,r=.5+Math.random()*1.5,dk=Math.random()>.15;
-xC.beginPath();xC.arc(x,y,r,0,Math.PI*2);xC.fillStyle=dk?'#222':'#ddd';xC.fill();xB.beginPath();xB.arc(x,y,r,0,Math.PI*2);xB.fillStyle=dk?'#000':'#fff';xB.fill()}
+xC.beginPath();xC.arc(x,y,r,0,Math.PI*2);xC.fillStyle=dk?'#122126':'#476166';xC.fill();xB.beginPath();xB.arc(x,y,r,0,Math.PI*2);xB.fillStyle=dk?'#050b0d':'#6f9390';xB.fill()}
 var tC=new T.CanvasTexture(cC),tB=new T.CanvasTexture(cB);tC.encoding=T.sRGBEncoding;
 [tC,tB].forEach(function(t){t.wrapS=t.wrapT=T.RepeatWrapping;t.repeat.set(6,3)});
-function chassis(){return M({color:'#c4c4c4',map:tC,bumpMap:tB,bumpScale:.005,roughness:1,metalness:0,side:T.DoubleSide})}
+function chassis(){return M({color:'#25343a',map:tC,bumpMap:tB,bumpScale:.003,roughness:.28,metalness:.72,side:T.DoubleSide})}
 /* contact shadow */
 var sc=document.createElement('canvas');sc.width=sc.height=128;var sx=sc.getContext('2d'),gr=sx.createRadialGradient(64,64,0,64,64,64);gr.addColorStop(0,'rgba(0,30,60,.55)');gr.addColorStop(1,'rgba(0,30,60,0)');sx.fillStyle=gr;sx.fillRect(0,0,128,128);
 var shadow=new T.Mesh(new T.PlaneGeometry(1.9,.9),new T.MeshBasicMaterial({map:new T.CanvasTexture(sc),transparent:true,depthWrite:false}));shadow.rotation.x=-Math.PI/2;shadow.position.y=-.79;root.add(shadow);
@@ -35,13 +35,13 @@ var neck=new T.Mesh(new T.LatheGeometry(np,64),chassis());neck.position.y=.38;bo
 var head=new T.Group();head.position.y=.6;body.add(head);
 head.add(new T.Mesh(new T.SphereGeometry(.28,64,64),M({color:'#111111',roughness:1,metalness:0})));
 /* glowing glass screen */
-var gu={color:{value:new T.Color('#38d4ff')},power:{value:3.8},intensity:{value:1.2}};
+var gu={color:{value:new T.Color('#7de38b')},power:{value:3.8},intensity:{value:1.35}};
 head.add(new T.Mesh(new T.SphereGeometry(.3,64,64),new T.ShaderMaterial({uniforms:gu,transparent:true,blending:T.AdditiveBlending,depthWrite:false,
 vertexShader:'varying vec3 vN;varying vec3 vV;void main(){vec4 mv=modelViewMatrix*vec4(position,1.0);vV=-mv.xyz;vN=normalize(normalMatrix*normal);gl_Position=projectionMatrix*mv;}',
 fragmentShader:'uniform vec3 color;uniform float power;uniform float intensity;varying vec3 vN;varying vec3 vV;void main(){float f=pow(1.0-max(dot(normalize(vV),normalize(vN)),0.0),power);gl_FragColor=vec4(color,f*intensity);}'})));
 /* eyes */
 var hp=[];for(var q=0;q<72;q++){var u=q/72*Math.PI*2,hx=16*Math.pow(Math.sin(u),3),hy=13*Math.cos(u)-5*Math.cos(2*u)-2*Math.cos(3*u)-Math.cos(4*u);hp.push(new T.Vector3(hx*.002,(hy+6)*.002,0))}
-var heartCurve=new T.CatmullRomCurve3(hp,true),eyeMat=new T.MeshBasicMaterial({color:new T.Color(2,2,2)}),heartMat=new T.MeshBasicMaterial({color:'#ff3366'});eyeMat.toneMapped=false;heartMat.toneMapped=false;
+var heartCurve=new T.CatmullRomCurve3(hp,true),eyeMat=new T.MeshBasicMaterial({color:new T.Color('#d7ffe0')}),heartMat=new T.MeshBasicMaterial({color:'#7de38b'});eyeMat.toneMapped=false;heartMat.toneMapped=false;
 function V3(x,y){return new T.Vector3(x,y,0)}
 function half(sg){var w=.025,h=.035,r=.02,g=.005,p=new T.CurvePath();
 p.add(new T.LineCurve3(V3(-w,sg*g),V3(-w,sg*(h-r))));p.add(new T.QuadraticBezierCurve3(V3(-w,sg*(h-r)),V3(-w,sg*h),V3(-w+r,sg*h)));
@@ -50,9 +50,9 @@ var topP=half(1),botP=half(-1),eyes=[];
 function mkEye(x,ry){var g=new T.Group();g.position.set(x,0,0);g.rotation.y=ry;g.scale.setScalar(1.1);
 var he=new T.Mesh(new T.TubeGeometry(heartCurve,64,.0035,8,true),heartMat);he.visible=false;g.add(he);
 var ng=new T.Group();ng.add(new T.Mesh(new T.TubeGeometry(topP,20,.0035,8,false),eyeMat));ng.add(new T.Mesh(new T.TubeGeometry(botP,20,.0035,8,false),eyeMat));g.add(ng);eyes.push({g:g,he:he,ng:ng});return g}
-var face=new T.Group();face.position.set(0,-.02,.29);face.add(mkEye(-.07,-.2));face.add(mkEye(.07,.2));head.add(face);
+var face=new T.Group();face.position.set(0,-.02,.29);face.add(mkEye(-.07,-.2));face.add(mkEye(.07,.2));var smile=new T.Mesh(new T.TorusGeometry(.055,.006,10,24,Math.PI),new T.MeshBasicMaterial({color:'#7de38b',transparent:true,opacity:.85}));smile.rotation.z=Math.PI;smile.position.set(0,-.075,.012);face.add(smile);head.add(face);
 /* ears with antennas */
-var eb=M({color:'#f0f0f0',roughness:.5}),er=M({color:'#ffffff',roughness:.3}),ec=M({color:'#cccccc',roughness:.8}),ab=M({color:'#999999',roughness:.4,metalness:.5}),as=M({color:'#d0d0d0',roughness:.4,metalness:.2}),at=new T.MeshBasicMaterial({color:'#fb923c'});
+var eb=M({color:'#33464b',roughness:.3,metalness:.7}),er=M({color:'#7de38b',roughness:.25,metalness:.6}),ec=M({color:'#18262b',roughness:.4,metalness:.6}),ab=M({color:'#718b8e',roughness:.3,metalness:.8}),as=M({color:'#9de6b0',roughness:.28,metalness:.65}),at=new T.MeshBasicMaterial({color:'#b9ffca'});
 function ear(left){var d=left?-1:1,g=new T.Group();g.position.set(d*.29,0,0);g.scale.setScalar(1.3);
 var a=new T.Mesh(new T.CylinderGeometry(.04,.04,.025,32),eb);a.rotation.z=Math.PI/2;g.add(a);
 var b=new T.Mesh(new T.TorusGeometry(.032,.008,16,32),er);b.position.x=d*.012;b.rotation.z=Math.PI/2;g.add(b);
@@ -73,7 +73,7 @@ hero.addEventListener('pointerdown',function(e){if(e.target.closest('a,button'))
 var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches,vis=true,t=0,last=0,raf=0;
 function lerp(a,b,k){return a+(b-a)*Math.min(1,k)}
 function frame(dt){var now=performance.now(),idle=now-P.real>4000&&!reduced,tx=idle?Math.sin(t*.5)*.45:P.x,ty=idle?Math.sin(t*.7)*.12:P.y;
-var maxX=vw/3.5;body.position.x=lerp(body.position.x,tx*maxX,.35*dt);var hv=Math.sin(t*1.2);body.position.y=-.14+hv*.05;shadow.scale.setScalar(.9-hv*.08);shadow.material.opacity=.85-hv*.15;
+var maxX=vw/3.5;body.position.x=lerp(body.position.x,tx*maxX,.35*dt);var hv=Math.sin(t*1.2);body.position.y=-.14+hv*.05;root.rotation.z=Math.sin(t*.65)*.012;shadow.scale.setScalar(.9-hv*.08);shadow.material.opacity=.85-hv*.15;
 var rx=tx-body.position.x/2.5,k1=10*dt,k2=20*dt;
 body.rotation.y=lerp(body.rotation.y,-rx*.95,k1);body.rotation.x=lerp(body.rotation.x,-ty*.25,k1);body.rotation.z=lerp(body.rotation.z,-rx*.15,k1);
 head.rotation.y=lerp(head.rotation.y,rx*1.8,k2);head.rotation.x=lerp(head.rotation.x,-ty*.3,k2);
@@ -148,11 +148,11 @@ window.addEventListener('hashchange',function(){route()});route();
 document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a||a.hasAttribute('data-top'))return;var h=a.getAttribute('href').slice(1);if(!h||h==='content')return;e.preventDefault();try{location.hash=h}catch(x){}route(h)});
 document.querySelectorAll('.seg button').forEach(function(x){x.onclick=function(){document.getElementById('v-pricing').setAttribute('data-p',x.getAttribute('data-p'));document.querySelectorAll('.seg button').forEach(function(y){y.setAttribute('aria-selected',y===x)})}});
 document.addEventListener('click',function(e){var tp=e.target.closest&&e.target.closest('[data-top]');if(tp){e.preventDefault();window.scrollTo({top:0,behavior:'smooth'});return}var a=e.target.closest&&e.target.closest('[data-svc]');if(!a)return;document.getElementById('sv').value=a.getAttribute('data-svc');var ms=document.getElementById('ms'),p=a.getAttribute('data-plan');if(p&&!ms.value)ms.value='I’m interested in the '+p+'.'});
-document.getElementById('f').onsubmit=function(e){e.preventDefault();
-var sv=document.getElementById('sv').value,n=document.getElementById('nm').value,m=document.getElementById('em').value,p=document.getElementById('ph').value,t=document.getElementById('ms').value;
-var body=(sv?'Service: '+sv+'\n\n':'')+t+'\n\n'+n+' ('+m+')'+(p?'\nPhone: '+p:'');
-document.getElementById('fs').textContent='Opening your email app…';
-location.href='mailto:info@havtek.co.ke?subject='+encodeURIComponent('Project inquiry from '+n)+'&body='+encodeURIComponent(body)};
+document.getElementById('f').onsubmit=async function(e){e.preventDefault();
+var form=e.currentTarget,sv=document.getElementById('sv').value,n=document.getElementById('nm').value,m=document.getElementById('em').value,p=document.getElementById('ph').value,t=document.getElementById('ms').value,hp=document.getElementById('website').value,status=document.getElementById('fs'),button=form.querySelector('button[type="submit"]');
+if(hp)return;
+status.textContent='Sending your message…';button.disabled=true;
+try{var response=await fetch('send-email.php',{method:'POST',headers:{Accept:'application/json','Content-Type':'application/json'},body:JSON.stringify({name:n,email:m,phone:p,service:sv,message:t,website:hp})});var result=await response.json();if(!response.ok||!result.ok)throw new Error(result.message||'Request failed');status.textContent='Thanks — your message has been sent. We’ll be in touch soon.';form.reset()}catch(err){status.textContent='We couldn’t send that just now. Please try again or contact info@havtek.co.ke.'}finally{button.disabled=false}};
 
 /* Give the process journey a clear next step after the final card. */
 (function(){var section=document.getElementById('process');if(!section||document.querySelector('.process-next'))return;var next=document.createElement('section');next.className='process-next';next.innerHTML='<div class="w"><p class="eye">READY WHEN YOU ARE</p><h2>Let’s turn your idea into a <em>working solution.</em></h2><p class="lead">Tell us what you need and we’ll help you choose the right next step.</p><a class="btn" href="#contact">Start a project ↗</a></div>';section.parentNode.appendChild(next)})();
@@ -166,4 +166,8 @@ location.href='mailto:info@havtek.co.ke?subject='+encodeURIComponent('Project in
 (function(){var badge=document.querySelector('.hbadge');if(badge&&badge.firstChild)badge.firstChild.textContent='Websites · Software · IT support';var fixed=document.querySelector('.stats div:nth-child(2)');if(fixed){var b=fixed.querySelector('b'),s=fixed.querySelector('span');if(b)b.textContent='Fixed quotes';if(s)s.textContent='Agreed before work starts'}var support=document.querySelector('#process .k2[style*="--i:3"] h3');if(support&&support.lastChild)support.lastChild.textContent='Launch & support';document.querySelectorAll('.tfh h4').forEach(function(h){if(h.textContent.trim()==='CONTACT')h.textContent='INFO'})})();
 
 (function(){document.querySelectorAll('a[href="mailto:kibetcollins016@gmail.com"]').forEach(function(a){a.href='mailto:info@havtek.co.ke'});var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT),n;while(n=w.nextNode()){if(n.nodeValue.indexOf('kibetcollins016@gmail.com')!==-1)n.nodeValue=n.nodeValue.replace(/kibetcollins016@gmail\.com/g,'info@havtek.co.ke')}})();
+
+(function(){var root=document.documentElement,b=document.getElementById('theme-toggle');if(!b)return;var saved=localStorage.getItem('havtek-theme');if(saved==='dark'||saved==='light')root.setAttribute('data-theme',saved);function sync(){var dark=root.getAttribute('data-theme')==='dark';b.textContent=dark?'☀ Light':'☾ Dark';b.setAttribute('aria-label',dark?'Switch to light mode':'Switch to dark mode');b.setAttribute('aria-pressed',String(dark))}b.addEventListener('click',function(){var next=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',next);localStorage.setItem('havtek-theme',next);sync()});sync()})();
+
+(function(){document.querySelectorAll('a[href]').forEach(function(a){if(a.getAttribute('href')==='#')return;a.target='_blank';a.rel='noopener noreferrer'})})();
 
