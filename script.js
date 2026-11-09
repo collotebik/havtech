@@ -50,7 +50,7 @@ var topP=half(1),botP=half(-1),eyes=[];
 function mkEye(x,ry){var g=new T.Group();g.position.set(x,0,0);g.rotation.y=ry;g.scale.setScalar(1.1);
 var he=new T.Mesh(new T.TubeGeometry(heartCurve,64,.0035,8,true),heartMat);he.visible=false;g.add(he);
 var ng=new T.Group();ng.add(new T.Mesh(new T.TubeGeometry(topP,20,.0035,8,false),eyeMat));ng.add(new T.Mesh(new T.TubeGeometry(botP,20,.0035,8,false),eyeMat));g.add(ng);eyes.push({g:g,he:he,ng:ng});return g}
-var face=new T.Group();face.position.set(0,-.02,.29);face.add(mkEye(-.07,-.2));face.add(mkEye(.07,.2));var smile=new T.Mesh(new T.TorusGeometry(.055,.006,10,24,Math.PI),new T.MeshBasicMaterial({color:'#7de38b',transparent:true,opacity:.85}));smile.rotation.z=Math.PI;smile.position.set(0,-.075,.012);face.add(smile);head.add(face);
+var face=new T.Group();face.position.set(0,-.02,.29);face.add(mkEye(-.07,-.2));face.add(mkEye(.07,.2));head.add(face);
 /* ears with antennas */
 var eb=M({color:'#33464b',roughness:.3,metalness:.7}),er=M({color:'#7de38b',roughness:.25,metalness:.6}),ec=M({color:'#18262b',roughness:.4,metalness:.6}),ab=M({color:'#718b8e',roughness:.3,metalness:.8}),as=M({color:'#9de6b0',roughness:.28,metalness:.65}),at=new T.MeshBasicMaterial({color:'#b9ffca'});
 function ear(left){var d=left?-1:1,g=new T.Group();g.position.set(d*.29,0,0);g.scale.setScalar(1.3);
@@ -73,7 +73,7 @@ hero.addEventListener('pointerdown',function(e){if(e.target.closest('a,button'))
 var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches,vis=true,t=0,last=0,raf=0;
 function lerp(a,b,k){return a+(b-a)*Math.min(1,k)}
 function frame(dt){var now=performance.now(),idle=now-P.real>4000&&!reduced,tx=idle?Math.sin(t*.5)*.45:P.x,ty=idle?Math.sin(t*.7)*.12:P.y;
-var maxX=vw/3.5;body.position.x=lerp(body.position.x,tx*maxX,.35*dt);var hv=Math.sin(t*1.2);body.position.y=-.14+hv*.05;root.rotation.z=Math.sin(t*.65)*.012;shadow.scale.setScalar(.9-hv*.08);shadow.material.opacity=.85-hv*.15;
+var maxX=vw/3.5;body.position.x=lerp(body.position.x,tx*maxX,.35*dt);var hv=Math.sin(t*1.2);body.position.y=-.14+hv*.05;shadow.scale.setScalar(.9-hv*.08);shadow.material.opacity=.85-hv*.15;
 var rx=tx-body.position.x/2.5,k1=10*dt,k2=20*dt;
 body.rotation.y=lerp(body.rotation.y,-rx*.95,k1);body.rotation.x=lerp(body.rotation.x,-ty*.25,k1);body.rotation.z=lerp(body.rotation.z,-rx*.15,k1);
 head.rotation.y=lerp(head.rotation.y,rx*1.8,k2);head.rotation.x=lerp(head.rotation.x,-ty*.3,k2);
@@ -138,6 +138,7 @@ resize();if(red){frame(.016)}else requestAnimationFrame(loop);
 window.__os={frame:frame};
 })()}catch(e){}
 var V={pricing:'v-pricing',contact:'v-contact',services:'v-services',faq:'v-faq',about:'v-about',process:'v-process',privacy:'v-privacy',terms:'v-terms'},A={'web-development':'services','custom-software':'services','it-solutions':'services',maintenance:'services'},T={pricing:'Pricing | Havtek',contact:'Contact | Havtek',services:'Services | Havtek',faq:'FAQ | Havtek',about:'About | Havtek',process:'Process | Havtek',privacy:'Privacy Policy | Havtek',terms:'Terms of Service | Havtek'},home=document.getElementById('top');
+(function(){var header=document.querySelector('header.hd');if(!header)return;function sync(){header.classList.toggle('at-top',window.scrollY<24)}sync();window.addEventListener('scroll',sync,{passive:true})})();
 function route(h){if(typeof h!=='string')h=location.hash.slice(1);var vw=V[h]?h:(A[h]||null);home.hidden=!!vw;
 Object.keys(V).forEach(function(k){document.getElementById(V[k]).hidden=(k!==vw)});
 document.querySelectorAll('.hnav a').forEach(function(x){if(vw&&x.getAttribute('href')==='#'+vw)x.setAttribute('aria-current','page');else x.removeAttribute('aria-current')});
@@ -167,7 +168,9 @@ try{var response=await fetch('send-email.php',{method:'POST',headers:{Accept:'ap
 
 (function(){document.querySelectorAll('a[href="mailto:kibetcollins016@gmail.com"]').forEach(function(a){a.href='mailto:info@havtek.co.ke'});var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT),n;while(n=w.nextNode()){if(n.nodeValue.indexOf('kibetcollins016@gmail.com')!==-1)n.nodeValue=n.nodeValue.replace(/kibetcollins016@gmail\.com/g,'info@havtek.co.ke')}})();
 
-(function(){var root=document.documentElement,b=document.getElementById('theme-toggle');if(!b)return;var saved=localStorage.getItem('havtek-theme');if(saved==='dark'||saved==='light')root.setAttribute('data-theme',saved);function sync(){var dark=root.getAttribute('data-theme')==='dark';b.textContent=dark?'☀ Light':'☾ Dark';b.setAttribute('aria-label',dark?'Switch to light mode':'Switch to dark mode');b.setAttribute('aria-pressed',String(dark))}b.addEventListener('click',function(){var next=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',next);localStorage.setItem('havtek-theme',next);sync()});sync()})();
+
 
 (function(){document.querySelectorAll('a[href]').forEach(function(a){if(a.getAttribute('href')==='#')return;a.target='_blank';a.rel='noopener noreferrer'})})();
+(function(){var walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT),node;while(node=walker.nextNode()){if(node.nodeValue.indexOf('up to KSh')!==-1)node.nodeValue=node.nodeValue.replace(/up to KSh/g,'KSh')}})();
+(function(){var message="Hi Havtek, I'd like to discuss a project. Could you help me get started?";document.querySelectorAll('a[href^="https://wa.me/"]').forEach(function(a){var base=a.href.split('?')[0];a.href=base+'?text='+encodeURIComponent(message)})})();
 
