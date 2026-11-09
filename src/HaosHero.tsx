@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import heroVideo from '../images/hero-panel.mp4';
+import heroPoster from '../images/hero-panel.jpg';
 
 const services = ['Websites', 'Software', 'Systems'];
 
@@ -7,6 +9,7 @@ export default function HaosHero() {
   const [index, setIndex] = useState(0);
   const [deleting, setDeleting] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -62,10 +65,23 @@ export default function HaosHero() {
     return () => { active = false; stop(); observer.disconnect(); canvas.removeEventListener('mousemove', move); canvas.removeEventListener('mouseleave', leave); window.removeEventListener('resize', seed); document.removeEventListener('visibilitychange', visibility); };
   }, []);
 
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const sync = () => {
+      if (media.matches) video.pause();
+      else video.play().catch(() => {});
+    };
+    sync();
+    media.addEventListener?.('change', sync);
+    return () => media.removeEventListener?.('change', sync);
+  }, []);
+
   return <section className="haos-container" aria-label="Havtek technology solutions showcase">
-    <div className="haos-glow" aria-hidden="true" /><canvas ref={canvasRef} className="haos-particles" aria-hidden="true" /><div className="haos-image" aria-hidden="true"><video src="/images/hero-panel.mp4" autoPlay muted loop playsInline preload="metadata" /></div>
+    <div className="haos-glow" aria-hidden="true" /><canvas ref={canvasRef} className="haos-particles" aria-hidden="true" /><div className="haos-image" aria-hidden="true"><video ref={videoRef} src={heroVideo} poster={heroPoster} autoPlay muted loop playsInline preload="metadata" /></div>
     <div className="grid-item top-left"><span className="label">TECHNOLOGY</span><span className="value">DIGITAL PARTNER</span></div><div className="grid-item top-center"><span className="label">YEAR</span><span className="value">2026</span></div><div className="grid-item top-right"><span className="label">TECH SOLUTIONS</span><span className="value">WEB · SOFTWARE · SYSTEMS</span></div>
-    <div className="grid-item main-content"><p className="haos-kicker">HAVTEK / NAIROBI</p><h1>HavTek</h1><h2>We build <span className="typing-service">{typed}<i aria-hidden="true" /></span><br />for businesses ready to move forward.</h2><div className="hero-actions"><a className="hero-primary" href="#contact">Start a project <span aria-hidden="true">↗</span></a><a className="hero-secondary" href="#services">Explore services</a></div><div className="stats-block"><span className="label">BUILT FOR BUSINESS</span><div className="value">THOUGHTFUL. RELIABLE. HUMAN.</div></div></div>
-    <div className="grid-item center-logo" aria-hidden="true"><div className="haos-logo">Your Haven for Tech Solutions</div></div><div className="grid-item bottom-left"><div className="stats-value">+40</div><div className="stats-caption">PROJECTS MOVING FORWARD</div><div className="progress-bar"><span /></div></div><div className="grid-item bottom-right"><a className="action-icon" href="#contact" aria-label="Start a project">↗</a></div>
+    <div className="grid-item main-content"><p className="haos-kicker">HAVTEK / NAIROBI</p><h1>HavTek</h1><h2>We build <span className="typing-service">{typed}<i aria-hidden="true" /></span><br />for businesses ready to move forward.</h2><div className="hero-actions"><a className="hero-primary" href="#contact">Start a project <span aria-hidden="true">↗</span></a><a className="hero-secondary" href="#services">Explore services</a></div></div>
+    <div className="grid-item center-logo" aria-hidden="true"><div className="haos-logo">Your Haven for Tech Solutions</div></div><div className="grid-item bottom-right"><a className="action-icon" href="#contact" aria-label="Start a project">↗</a></div>
   </section>;
 }

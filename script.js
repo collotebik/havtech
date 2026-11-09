@@ -1,4 +1,11 @@
+/* Strip hosting/tracking query parameters such as ?i=1 while preserving the
+   hash section (for example #pricing) used by the site's navigation. */
+if(location.search&&window.history&&history.replaceState){history.replaceState(null,document.title,location.pathname+location.hash)}
 var els=document.querySelectorAll('.rv');
+/* If the compiled React entry is missing on a static host, never leave the
+   page behind an infinite loading overlay. The legacy copy is a readable
+   fallback until the production bundle is uploaded. */
+setTimeout(function(){var hero=document.querySelector('.hr');if(hero&&!hero.querySelector('.haos-container'))hero.classList.add('legacy-fallback')},2500);
 if('IntersectionObserver' in window){var o=new IntersectionObserver(function(a){a.forEach(function(x){if(x.isIntersecting){x.target.classList.add('on');o.unobserve(x.target)}})},{threshold:.12});els.forEach(function(e){o.observe(e)})}else{els.forEach(function(e){e.classList.add('on')})}
 document.querySelectorAll('.row').forEach(function(x){var hv=matchMedia('(hover:hover)');function set(o){x.classList.toggle('open',o);x.setAttribute('aria-expanded',o)}
 x.onclick=function(e){if(e.target.closest('a')||hv.matches)return;var o=!x.classList.contains('open');document.querySelectorAll('.row.open').forEach(function(y){y.classList.remove('open');y.setAttribute('aria-expanded','false')});set(o)};
@@ -153,7 +160,7 @@ document.getElementById('f').onsubmit=async function(e){e.preventDefault();
 var form=e.currentTarget,sv=document.getElementById('sv').value,n=document.getElementById('nm').value,m=document.getElementById('em').value,p=document.getElementById('ph').value,t=document.getElementById('ms').value,hp=document.getElementById('website').value,status=document.getElementById('fs'),button=form.querySelector('button[type="submit"]');
 if(hp)return;
 status.textContent='Sending your message…';button.disabled=true;
-try{var response=await fetch('send-email.php',{method:'POST',headers:{Accept:'application/json','Content-Type':'application/json'},body:JSON.stringify({name:n,email:m,phone:p,service:sv,message:t,website:hp})});var result=await response.json();if(!response.ok||!result.ok)throw new Error(result.message||'Request failed');status.textContent='Thanks — your message has been sent. We’ll be in touch soon.';form.reset()}catch(err){status.textContent='We couldn’t send that just now. Please try again or contact info@havtek.co.ke.'}finally{button.disabled=false}};
+try{var response=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{Accept:'application/json','Content-Type':'application/json'},body:JSON.stringify({access_key:'2cd10f60-20bf-40a8-b1ff-774e00026ad9',subject:'New project inquiry from Havtek website',from_name:n,name:n,email:m,phone:p,service:sv,message:t,botcheck:hp})});var result=await response.json();if(!response.ok||!result.success)throw new Error(result.message||'Request failed');status.textContent='Thanks - your message has been sent. We’ll be in touch soon.';form.reset()}catch(err){status.textContent='We couldn’t send that just now. Please try again or contact info@havtek.co.ke.'}finally{button.disabled=false}};
 
 /* Give the process journey a clear next step after the final card. */
 (function(){var section=document.getElementById('process');if(!section||document.querySelector('.process-next'))return;var next=document.createElement('section');next.className='process-next';next.innerHTML='<div class="w"><p class="eye">READY WHEN YOU ARE</p><h2>Let’s turn your idea into a <em>working solution.</em></h2><p class="lead">Tell us what you need and we’ll help you choose the right next step.</p><a class="btn" href="#contact">Start a project ↗</a></div>';section.parentNode.appendChild(next)})();

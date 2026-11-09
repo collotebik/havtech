@@ -516,9 +516,10 @@ footer.tf{max-width:1024px;margin:48px auto 32px;padding:0 24px;border:0;backgro
 .btn.sm{padding:9px 18px;font-size:14px}
 .hd .mb{display:none;width:36px;height:36px;border-radius:50%;border:1px solid var(--bd);background:none;color:var(--text);place-items:center;padding:0;min-width:0;min-height:0}
 @media(max-width:860px){.hnav,.hact .btn{display:none}.hd .mb{display:grid}}
-.drawer{background:rgba(0,0,0,.65);padding:0;overflow:hidden}
-.dp{position:absolute;top:0;right:0;bottom:0;width:min(300px,86vw);border-radius:0;border:0;border-left:1px solid var(--bd);background:var(--bg);color:var(--text);padding:24px;overflow:auto;animation:sl .3s ease}
-@keyframes sl{from{transform:translateX(100%)}}
+.drawer{background:rgba(0,0,0,.65);padding:0;overflow:hidden;animation:drawer-fade .22s ease-out both}
+.dp{position:absolute;top:0;right:0;bottom:0;width:min(300px,86vw);border-radius:0;border:0;border-left:1px solid var(--bd);background:var(--bg);color:var(--text);padding:24px;overflow:auto;animation:sl .32s cubic-bezier(.22,1,.36,1) both;will-change:transform}
+@keyframes sl{from{transform:translate3d(100%,0,0)}}
+@keyframes drawer-fade{from{opacity:0}to{opacity:1}}
 .dh .hlogo{color:var(--text)}
 .dx{border-color:var(--bd);color:var(--text)}
 .dp nav a{color:var(--text);font-weight:500}
@@ -714,6 +715,7 @@ footer.tf{max-width:1024px;margin:48px auto 32px;padding:0 24px;border:0;backgro
 .k2n{font:700 14px ui-monospace,Menlo,monospace;opacity:.65;margin-right:12px}
 .k2c .cd{display:block;margin-top:14px;background:rgba(255,255,255,.4);color:inherit;border-color:rgba(0,0,0,.1)}
 .k2c .cd:before{color:inherit}
+#process .k2:nth-child(3) .cd{color:#000!important}
 .k2d{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:5px;font-size:13.5px}
 .k2d li:before{content:"✓ ";font-weight:700}
 /* founder */
@@ -963,9 +965,12 @@ footer.tf{max-width:1024px;margin:48px auto 32px;padding:0 24px;border:0;backgro
 .hd{transition:background .3s ease,border-color .3s ease,color .3s ease}
 .hd.at-top{background:rgba(5,7,7,.78);border-bottom-color:rgba(220,245,235,.16);color:#effff3}
 .hd.at-top .hnav a,.hd.at-top .hlogo{color:#effff3}
-.hd.at-top .brand-logo{filter:brightness(0) invert(1)}
+.hd.at-top .brand-logo{filter:none}
+.hd .hlogo{padding:6px 10px;border-radius:10px;background:#f7f7f2;box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.hd .hlogo .brand-logo{filter:none!important}
 .hd.at-top .btn.o,.hd.at-top .tg{color:#effff3;border-color:rgba(220,245,235,.34)}
 .hd.at-top .btn:not(.o){background:#7de38b;color:#071108}
+.hd.at-top{background:#0b0c0c!important;border-bottom-color:rgba(220,245,235,.16);color:#effff3}
 @media(prefers-reduced-motion:reduce){.hd{transition:none}}
 
 /* Havtek Signal hero: one intentional visual surface after legacy experiments. */
@@ -1028,9 +1033,6 @@ body:not(:has(#v-pricing)) .fl2:before{content:"";display:block;width:100%;aspec
 /* Ensure the two illustration cards fill their image frames to the edges. */
 #what-we-do .sv2:nth-child(3) .sv2i .im,
 #what-we-do .sv2:nth-child(4) .sv2i .im{background-size:cover;background-position:center}
-/* The pale blue process cards need clearer contrast against white cards. */
-#process .k2c[style*="#7DD3FC"]{background:#55b8e8!important}
-#process .k2c[style*="#7DD3FC"] .cd{background:rgba(4,45,70,.12)}
 /* Contact form labels should have their own clear line above each field. */
 .cf form{row-gap:10px}
 .cf label{display:block;position:static;line-height:1.45;margin:0 0 5px;font-size:14px}
@@ -1059,7 +1061,7 @@ body:not(:has(#v-pricing)) .fl2:before{content:"";display:block;width:100%;aspec
 #top .haos-particles{opacity:.42;mix-blend-mode:screen}
 #top .haos-glow{left:4%;top:30%;width:42vw;height:42vw;background:radial-gradient(circle,rgba(45,154,75,.2),transparent 67%);filter:blur(54px)}
 #top .haos-image{width:42%;background:#0a1714;border-left:1px solid rgba(126,227,135,.2);clip-path:polygon(12% 0,100% 0,100% 100%,0 100%)}
-#top .haos-image:after{background:linear-gradient(90deg,#07110f 0%,rgba(7,17,15,.25) 28%,transparent 60%),linear-gradient(180deg,rgba(7,17,15,.1),rgba(7,17,15,.35));mix-blend-mode:normal}
+#top .haos-image:after{background:linear-gradient(90deg,#07110f 0%,rgba(7,17,15,.72) 28%,rgba(7,17,15,.18) 62%,transparent 78%),linear-gradient(180deg,rgba(7,17,15,.1),rgba(7,17,15,.35));mix-blend-mode:normal}
 #top .haos-image img{opacity:.76;filter:saturate(.8) contrast(1.12);transform:scale(1.04)}
 #top .haos-container .label{color:#759387}.haos-container .value{color:#c4ddd0}
 #top .top-right{color:#c4ddd0}
@@ -1116,11 +1118,7 @@ body:not(:has(#v-pricing)) .fl2:before{content:"";display:block;width:100%;aspec
   #top .haos-image video{width:100%;height:100%;object-fit:cover;object-position:center;opacity:.75}
   #top .haos-container .center-logo{position:static;grid-column:1/3;grid-row:5;justify-self:start;transform:none;padding:20px 0 0!important}
   #top .haos-container .bottom-left,#top .haos-container .bottom-right{display:none}
-  .pgs,.pgs.top{padding:62px 0}.pgs.top{padding-top:86px}.w{width:min(100% - 32px,1100px)}.pgs.top .pt,.pgs.top .pt2{font-size:clamp(42px,12vw,64px)}.pgs.top .lead,.pgs.top .fd{font-size:16px}
-  #what-we-do .pgrid,.pgrid{grid-template-columns:1fr;gap:34px}.pstack{gap:16px}.sv2{padding:10px!important}.sv2i{height:205px}.sv2h{padding:18px 6px 0}.sv2 p{font-size:14px}.sv2g{gap:6px}.sv2g span{font-size:11px;padding:6px 9px}
-  .sg{grid-template-columns:1fr!important;gap:28px}.sg .ill{order:2;min-height:240px}.sg .st{order:1}.sg h2{font-size:clamp(32px,9vw,48px);line-height:1.02}.lead2{font-size:15px;line-height:1.6}.sg .cta{flex-wrap:wrap}.sg .cta .btn{min-height:48px}
   .grid{grid-template-columns:1fr!important;gap:12px}.card{padding:22px 18px}.chips span{font-size:13px;padding:10px 12px}.bub{min-height:250px}.sec{grid-template-columns:1fr!important;gap:10px}.sec>div{padding:16px}
-  #process{padding:64px 0 42px!important}.k2{height:auto;min-height:0;margin-bottom:14px;position:relative;top:auto!important}.k2c{height:auto;min-height:470px;padding:24px 18px;border-radius:14px}.k2b{display:grid;grid-template-columns:1fr;gap:20px}.k2i{min-height:150px;order:-1}.k2z{height:170px!important}
   .faq{width:100%}.fq-q{padding:22px 0;font-size:17px}.fa>div{padding:0 0 20px}.cf{padding:22px 18px}.cf h2{font-size:clamp(34px,10vw,48px)}.cf input,.cf textarea,.cf select{min-height:48px}.cf button{min-height:50px;width:100%}
   .tfc{padding:34px 18px}.tfcols{display:grid;grid-template-columns:1fr 1fr;gap:26px 18px}.tfcols a{white-space:normal;font-size:13px}.wa{right:14px;bottom:14px;width:50px;height:50px}
 }
@@ -1203,8 +1201,20 @@ body:not(:has(#v-pricing)) .fl2:before{content:"";display:block;width:100%;aspec
 .hr:before{content:"Loading Havtek";position:absolute;inset:0;z-index:20;display:grid;place-items:center;background:#07110f;color:#8be79a;font:600 12px Manrope,system-ui,sans-serif;letter-spacing:.22em;text-transform:uppercase}
 .hr:after{content:"";position:absolute;z-index:21;top:50%;left:50%;width:28px;height:28px;margin:22px 0 0 -14px;border:1px solid rgba(139,231,154,.25);border-top-color:#8be79a;border-radius:50%;animation:hero-loader .8s linear infinite}
 .hr:has(.haos-container):before,.hr:has(.haos-container):after{display:none}
+.hr.legacy-fallback:before,.hr.legacy-fallback:after{display:none}
+.hr.legacy-fallback>.hbadge,.hr.legacy-fallback>h1,.hr.legacy-fallback>.hdesc,.hr.legacy-fallback>.hcta{display:block!important}
+.hr.legacy-fallback>.hcta{display:flex!important}
 @keyframes hero-loader{to{transform:rotate(360deg)}}
 @media(prefers-reduced-motion:reduce){.hr:after{animation:none}}
+@media(prefers-reduced-motion:reduce){.drawer,.dp{animation:none}}
+
+/* Restore the homepage service-card stack on phones. */
+@media(max-width:760px){
+  #what-we-do .pstack{gap:0;padding-bottom:18vh}
+  #what-we-do .pstack .sv2{position:sticky;top:calc(78px + var(--i)*14px)!important;margin-bottom:18vh;z-index:calc(10 + var(--i));padding:14px!important}
+  #what-we-do .pstack .sv2:last-child{margin-bottom:0}
+  #what-we-do .pstack .sv2i{height:clamp(190px,58vw,245px)}
+}
 
 /* Liquid-glass treatment adapted from the supplied component style. */
 #top .haos-container .center-logo{overflow:hidden;border-radius:999px;border:1px solid rgba(255,255,255,.28);background:rgba(49,93,82,.34);box-shadow:0 0 6px rgba(0,0,0,.04),0 2px 8px rgba(0,0,0,.14),inset 3px 3px .5px -3px rgba(255,255,255,.62),inset -3px -3px .5px -3px rgba(0,0,0,.72),inset 1px 1px 1px -.5px rgba(255,255,255,.55),inset -1px -1px 1px -.5px rgba(0,0,0,.55),inset 0 0 8px 5px rgba(255,255,255,.08),0 0 14px rgba(121,213,139,.15);backdrop-filter:blur(14px) saturate(1.25)}
@@ -1216,13 +1226,14 @@ body:not(:has(#v-pricing)) .fl2:before{content:"";display:block;width:100%;aspec
 #top .haos-container .typing-service i{background:#8be79a}
 @media(max-width:760px){#top .haos-container .typing-service{padding:4px 9px}}
 
-/* Preserve the services stack on phones; the final card keeps a clear exit. */
-@media(max-width:760px){
-  #what-we-do .pstack{gap:0;padding-bottom:18vh}
-  #what-we-do .pstack .sv2{position:sticky;top:calc(78px + var(--i)*14px)!important;margin-bottom:18vh;z-index:calc(10 + var(--i));padding:14px!important}
-  #what-we-do .pstack .sv2:last-child{margin-bottom:0}
-  #what-we-do .pstack .sv2i{height:clamp(190px,58vw,245px)}
-}
+/* Hero direction: one consistent dark field; the video is desktop-only. */
+#top .hr:has(.haos-container),#top .haos-container{background:#07110f!important;color:#eef8f0!important}
+#top .haos-container:before{background:linear-gradient(110deg,rgba(7,17,15,.98),rgba(7,17,15,.9) 54%,rgba(7,17,15,.72))!important}
+#top .haos-container .main-content h1{color:#eef8f0!important}
+#top .haos-container .main-content h2{color:#a9bcb4!important}
+#top .haos-container .center-logo{color:#d8eee0!important}
+@media(max-width:760px){#top .haos-image{display:none!important}#top .haos-container{grid-template-columns:1fr!important}#top .haos-container .main-content{grid-column:1!important;grid-row:2!important}.haos-container .center-logo{grid-column:1!important;grid-row:3!important}}
+
 
 /* Restore the two package starting prices; keep the removed upper ceiling hidden. */
 .pcs.for-web>.pcw:nth-child(2) .pr2,.pcs.for-web>.pcw:nth-child(3) .pr2{font-size:clamp(34px,4.6vw,48px)!important}
@@ -1232,3 +1243,4 @@ body:not(:has(#v-pricing)) .fl2:before{content:"";display:block;width:100%;aspec
 
 /* Maintenance & Support intentionally uses the same surface treatment as the other service cards. */
 #what-we-do .sv2:nth-child(4){background:#fff!important;border-color:#e3e3dc!important;box-shadow:0 16px 40px rgba(23,23,23,.05)!important}
+
